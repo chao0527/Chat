@@ -1,5 +1,6 @@
 package top.gzcsxy.web.controlller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import top.gzcsxy.chatgpt.entity.chat.Message;
 import top.gzcsxy.web.result.Result;
@@ -19,17 +20,17 @@ import static top.gzcsxy.web.result.Result.*;
 @RequestMapping("/api")
 @RestController
 public class ChatController {
-
+    @ApiOperation("聊天模块")
     @PostMapping("/chat")
     public Result<List<Message>> chat(@RequestParam("userMessage") String userMessage) {
         List<Message> gptMessage = new ChatService().chat(userMessage);
         return OK(gptMessage);
     }
 
+    @ApiOperation("表结构+聊天模块")
     @PostMapping("/sqlchat")
-    public Result<List<Message>> sqlChat(@RequestParam("Schema") String schema, @RequestParam("userMessage") String userMessage){
-
-        List<Message> gptMessage=new ChatService().chat(schema+userMessage);
+    public Result<List<Message>> sqlChat(@RequestParam("Schema") String schema, @RequestParam("userMessage") String userMessage) {
+        List<Message> gptMessage = new ChatService().chat(schema + userMessage);
         return OK(gptMessage);
     }
 }
