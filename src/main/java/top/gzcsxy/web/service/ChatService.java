@@ -1,9 +1,8 @@
-package top.gzcsxy.chatgpt;
+package top.gzcsxy.web.service;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import org.junit.Before;
-import org.junit.Test;
+import top.gzcsxy.chatgpt.OpenAiClient;
 import top.gzcsxy.chatgpt.config.ChatGPTKey;
 import top.gzcsxy.chatgpt.entity.chat.ChatCompletion;
 import top.gzcsxy.chatgpt.entity.chat.ChatCompletionResponse;
@@ -14,20 +13,24 @@ import top.gzcsxy.chatgpt.utils.FirstKeyStrategy;
 
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * [Chat-Gpt对话测试]
+ * [一句话描述该类的功能]
  *
  * @author : [chao]
  * @version : [v1.0]
- * @createTime : [2023/5/6 9:40]
+ * @createTime : [2023/5/6 13:26]
  */
-public class OpenAiTest {
+public class ChatService {
     private OpenAiClient v2;
 
-    @Before
+    public ChatService() {
+    }
+
     public void before() {
         //可以为null
         Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 40001));
@@ -55,10 +58,12 @@ public class OpenAiTest {
 //                .apiHost("https://自己代理的服务器地址/")
                 .build();
     }
-    @Test
-    public void chat() {
+
+    public List<Message> chat(String userMessage) {
+        before();
+        List<Message> gptMessage = new ArrayList<>();
         //聊天模型：gpt-3.5
-        Message message = Message.builder().role(Message.Role.USER).content("你好啊我的伙伴！").build();
+        Message message = Message.builder().role(Message.Role.USER).content(userMessage).build();
         ChatCompletion chatCompletion = ChatCompletion
                 .builder()
                 .messages(Arrays.asList(message))
@@ -66,7 +71,8 @@ public class OpenAiTest {
                 .build();
         ChatCompletionResponse chatCompletionResponse = v2.chatCompletion(chatCompletion);
         chatCompletionResponse.getChoices().forEach(e -> {
-            System.out.println(e.getMessage());
+            gptMessage.add(e.getMessage());
         });
+        return gptMessage;
     }
 }

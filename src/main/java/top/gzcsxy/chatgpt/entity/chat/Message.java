@@ -1,6 +1,8 @@
 package top.gzcsxy.chatgpt.entity.chat;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -15,16 +17,20 @@ import java.io.Serializable;
  * @createTime : [2023/5/6 9:46]
  */
 @Data
+@ApiModel(description = "gpt返回消息")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Message implements Serializable {
 
     /**
      * 目前支持三中角色参考官网，进行情景输入：https://platform.openai.com/docs/guides/chat/introduction
      */
+    @ApiModelProperty(value = "角色")
     private String role;
 
+    @ApiModelProperty(value = "描述主题信息")
     private String content;
 
+    @ApiModelProperty(value = "名称")
     private String name;
 
     public static Builder builder() {

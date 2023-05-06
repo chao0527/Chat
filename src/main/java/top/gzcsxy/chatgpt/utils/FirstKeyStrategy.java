@@ -1,4 +1,4 @@
-package top.gzcsxy.chatgpt;
+package top.gzcsxy.chatgpt.utils;
 
 import top.gzcsxy.chatgpt.function.KeyStrategyFunction;
 
